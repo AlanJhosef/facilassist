@@ -35,7 +35,7 @@ namespace FacilAssistApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -55,7 +55,7 @@ namespace FacilAssistApi.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(new { message = ex.Message });
             }
         }
 

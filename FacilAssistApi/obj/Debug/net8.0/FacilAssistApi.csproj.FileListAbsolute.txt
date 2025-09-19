@@ -91,3 +91,4 @@ C:\Users\alanj\source\repos\facilassist\FacilAssistApi\bin\Debug\net8.0\packages
 C:\Users\alanj\source\repos\facilassist\FacilAssistApi\bin\Debug\net8.0\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\csi.exe.config
 C:\Users\alanj\source\repos\facilassist\FacilAssistApi\bin\Debug\net8.0\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\vbc.exe.config
 C:\Users\alanj\source\repos\facilassist\FacilAssistApi\bin\Debug\net8.0\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\tools\RoslynLatest\VBCSCompiler.exe.config
+C:\Users\alanj\source\repos\facilassist\FacilAssistApi\obj\Debug\net8.0\FacilAssistApi.sourcelink.json
