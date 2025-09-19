@@ -45,8 +45,10 @@ GO
 
 insert into Situacao(Situacao)
 select 'Em Analise'
-union select 'Aprovado'
-union select 'Reprovado' 
+insert into Situacao(Situacao)
+select 'Aprovado'
+insert into Situacao(Situacao)
+select 'Reprovado' 
 GO
 
 create procedure InserirCliente(
