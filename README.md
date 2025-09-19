@@ -29,6 +29,8 @@ BACK
 
 Na api estamos usando .net8, não escolhi o .net9 pela familiaridade com algumas libs que sei que já funciona no .net8 
 
+Separei em um unico projeto api / service / data. Como é um projeto de teste e pequeno achei melhor não separar as camadas como outros projetos.
+
 Aqui estamos usando a autenticação JWT que é bem simples e seguro.
 
 Dapper para recuperar o dataset do banco de dados, facilita muito o uso e manutenção. 
