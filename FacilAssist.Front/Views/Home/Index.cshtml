@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Clientes";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Cadastro de Usuário</h3>
+                </div>
+                <div class="card-body">
+                    <form id="cadastroForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="nome" class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" name="nome" required>
+                                <div class="invalid-feedback">
+                                    Por favor, digite seu nome completo (pelo menos dois nomes).
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="cpf" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" required>
+                                <div class="invalid-feedback">
+                                    Por favor, digite um CPF válido.
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" required>
+                                <div class="invalid-feedback">
+                                    Por favor, informe a data de nascimento
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="sexo" class="form-label">Sexo</label>
+                                <select class="form-select" id="sexo" name="sexo" required>
+                                    <option value="" selected>Selecione...</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Por favor, informe o sexo.
+                                </div>
+                            </div>
+                            <div class="d-grid col-md-12">
+                                <br />
+                                <button type="submit" class="btn btn-primary btn-lg">Enviar Cadastro</button>
+                            </div>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+
+
+
+    $(document).ready(function () {
+        // Aplica a máscara no campo CPF
+        $('#cpf').mask('000.000.000-00');
+
+        $('#cadastroForm').on('submit', function (e) {
+            e.preventDefault();
+
+
+            const nomeInput = $('#nome');
+            const nomeValido = nomeInput.val().trim().indexOf(' ') > -1;
+
+            if (!nomeValido) {
+                nomeInput.addClass('is-invalid');
+                showToast('Por favor, digite seu nome completo.', 'error', 4000);
+                return;
+            } else {
+                nomeInput.removeClass('is-invalid');
+            }
+
+
+            const cpfInput = $('#cpf');
+            const dataNascimento = $('#dataNascimento');
+            const sexo = $('#sexo');
+
+            const cpfSemMascara = cpfInput.val().replace(/\D/g, '');
+            const cpfValido = cpfSemMascara.length === 11;
+
+            if (!cpfValido) {
+                cpfInput.addClass('is-invalid');
+                showToast('Por favor, digite um CPF válido.', 'error', 4000);
+                return;
+            } else {
+                cpfInput.removeClass('is-invalid');
+            }
+
+
+            if (dataNascimento.val() == "") {
+                dataNascimento.addClass('is-invalid');
+                showToast('Por favor, digite uma data válida.', 'error', 4000);
+                return;
+            } else {
+                dataNascimento.removeClass('is-invalid');
+            }
+
+            if (sexo.val() == "") {
+                sexo.addClass('is-invalid');
+                showToast('Por favor, informe o sexo', 'error', 4000);
+                return;
+            } else {
+                sexo.removeClass('is-invalid');
+            }
+
+              // Se todas as validações passarem, prossegue com o AJAX
+            const formData = $(this).serialize();
+
+
+            const url_api = '@Url.Action("Criar")';
+
+            $.ajax({
+                url: url_api,
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                success: function (response) {
+
+                    showToast(response.msg, response.tipo, 5000);
+
+                    if (response.tipo == "success") {
+                        window.location = "@Url.Action("Listar")";
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                    showToast(response.msg, response.tipo, 5000);
+                }
+            });
+        });
+    });
+</script>

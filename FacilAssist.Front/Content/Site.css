@@ -1,0 +1,55 @@
+﻿/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+ 
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.toast-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.toast-error {
+    background-color: #dc3545;
+    color: white;
+}
+.is-invalid + .invalid-feedback {
+    display: block;
+}
+.img-logo {
+    background-color: #ffd100;
+    border-radius: 12px 0px 12px 0px;
+    width: 150px;
+    text-align: center;
+}
+.img-logo img {
+    width: 100px;
+}
+.situacao-text {
+
+}
+.situacao-text-1 {
+    color: blue;
+}
+.situacao-text-2 {
+    color: green;
+}
+.situacao-text-3 {
+    color: red;
+}

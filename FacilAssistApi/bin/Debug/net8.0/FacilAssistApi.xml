@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FacilAssistApi</name>
+    </assembly>
+    <members>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.Listar">
+            <summary>
+            Retorna a lista de todos os clientes
+            </summary>
+            <returns>Uma lista de Clientes.</returns>
+            <response code="200">Retorna a lista de Clientes com sucesso.</response>
+        </member>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.DetalhesCliente(System.Int32)">
+            <summary>
+            Retorna a lista de todos os clientes
+            </summary>
+            <returns>Uma lista de Clientes.</returns>
+            <response code="200">Retorna a lista de Clientes com sucesso.</response>
+        </member>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.Criar(FacilAssistApi.Command.ClienteCommand,FluentValidation.IValidator{FacilAssistApi.Command.ClienteCommand})">
+            <summary>
+            Criar Cliente
+            </summary>
+            <returns>Nao retornada nada, apenas executa</returns>
+            <response code="200">OK</response>
+        </member>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.Alterar(FacilAssistApi.Command.ClienteCommand,FluentValidation.IValidator{FacilAssistApi.Command.ClienteCommand})">
+            <summary>
+            ExAlterarcluir Cliente
+            </summary>
+            <returns>Nao retornada nada, apenas executa</returns>
+            <response code="200">OK</response>
+        </member>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.Excluir(System.Int32)">
+            <summary>
+            Excluir Cliente
+            </summary>
+            <returns>Nao retornada nada, apenas executa</returns>
+            <response code="200">OK</response>
+        </member>
+        <member name="M:FacilAssistApi.Controllers.ClienteController.AprovarReprovar(System.Int32,FacilAssistApi.Enums.ESituacaoCliente)">
+            <summary>
+            Aprovar/Reprovar Cliente
+            </summary>
+            <returns>Nao retornada nada, apenas executa</returns>
+            <response code="200">OK</response>
+        </member>
+    </members>
+</doc>

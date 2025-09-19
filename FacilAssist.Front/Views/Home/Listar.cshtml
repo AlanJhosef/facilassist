@@ -1,0 +1,296 @@
+﻿@using FacilAssist.Front.Models
+@using FacilAssist.Front.Enum
+@using FacilAssist.Front.Helper
+@{
+    ViewBag.Title = "Clientes";
+}
+@model List<Cliente>
+
+<br />
+
+<style>
+    .btn {
+        width: 95%;
+    }
+
+    small {
+        font-size: 12px;
+    }
+</style>
+
+<div class="container">
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h3>Clientes</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover table-bordered grid" cellpadding="10" border="1">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Situação</th>
+                                <th>Nascimento</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cliente in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @cliente.Nome
+                                        <br /><small>@FuncoesString.AplicarMascaraCpf(cliente.Cpf)</small>
+                                        <br /><small>@cliente.DescricaoSexo</small>
+                                    </td>
+                                    <td>
+                                        <p class="situacao-text situacao-text-@cliente.SituacaoId">
+                                            @cliente.Situacao
+                                        </p>
+                                    </td>
+                                    <td data-sort="@cliente.DataNascimento.ToString("yyyy-MM-dd")">
+                                        @cliente.DataNascimento.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td width="10%">
+                                        <button class="btn btn-primary" onclick="Detalhes('@cliente.Id');">
+                                            Editar
+                                        </button>
+                                    </td>
+                                    <td width="10%">
+                                        <button class="btn btn-success" onclick="Aprovar('@cliente.Id');">
+                                            Aprovar
+                                        </button>
+                                    </td>
+                                    <td width="10%">
+                                        <button class="btn btn-danger" onclick="Reprovar('@cliente.Id');">
+                                            Reprovar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="cadastroModal" tabindex="-1" aria-labelledby="cadastroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="cadastroModalLabel">Cadastro de Usuário</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="cadastroForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="nome" class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
+                            <input type="hidden" id="id" name="id">
+                            <div class="invalid-feedback">
+                                Por favor, digite seu nome completo (pelo menos dois nomes).
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" disabled>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" required>
+                            <div class="invalid-feedback">
+                                Por favor, informe a data de nascimento.
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="sexo" class="form-label">Sexo</label>
+                            <select class="form-select" id="sexo" name="sexo" required>
+                                <option value="" selected disabled>Selecione...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Por favor, informe o sexo.
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-danger" id="btn-excluir" onclick="Excluir();">Excluir</button>
+                <button type="button" onclick="Alterar();" form="cadastroForm" id="btn-atualiza-cadastro" class="btn btn-primary">Atualizar Cadastro</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var clienteId = 0;
+
+    function converteDataString(dataNascimentoString) {
+        // 1. Extrair os milissegundos da string
+        // Usa o método match para encontrar os dígitos entre os parênteses
+        var milissegundos = parseInt(dataNascimentoString.match(/\d+/)[0]);
+
+        // 2. Criar um objeto Date com os milissegundos
+        var data = new Date(milissegundos);
+
+        // 3. Obter dia, mês e ano
+        var dia = data.getDate();
+        var mes = data.getMonth() + 1; // O mês começa do 0, então somamos 1
+        var ano = data.getFullYear();
+
+
+        dia = dia < 10 ? '0' + dia : dia;
+        mes = mes < 10 ? '0' + mes : mes;
+
+        return ano + "-" + mes + "-" + dia;
+    }
+
+    function Detalhes(Id) {
+        clienteId = Id;
+
+        $.ajax({
+            url: '@Url.Action("ObterDadosCliente")',
+            type: 'GET',
+            data: {Id},
+            dataType: 'json',
+        success: function (response) {
+            $("#nome").val(response.Nome);
+            $("#cpf").val(response.Cpf);
+            $("#dataNascimento").val(converteDataString(response.DataNascimento));
+            $("#sexo").val(response.Sexo);
+            $("#id").val(response.Id);
+
+            $('#cadastroModal').modal('show');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+             showToast("Erro ao buscar dados do cliente", "error", 5000);
+        }
+        });
+    }
+
+    function Excluir() {
+        if (confirm("Você tem certeza que deseja excluir este cliente?")) {
+
+            $.ajax({
+                url: '@Url.Action("Excluir")',
+                type: 'POST',
+                data: { Id: clienteId },
+                dataType: 'json',
+            success: function (response) {
+
+                showToast(response.msg, response.tipo, 5000);
+
+                if (response.tipo == "success") {
+                    window.location.reload();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                 showToast(response.msg, response.tipo, 5000);
+            }
+            });
+
+
+        }
+    }
+
+    function Alterar() {
+        if (confirm("Você tem certeza que deseja alterar este cliente?")) {
+
+            var nome = $("#nome").val();
+            var cpf = $("#cpf").val();
+            var datanascimento = $("#dataNascimento").val();
+            var sexo = $("#sexo").val();
+            
+
+            $.ajax({
+                url: '@Url.Action("Alterar")',
+                type: 'POST',
+                data: { id: clienteId, sexo, nome, datanascimento, cpf },
+                dataType: 'json',
+            success: function (response) {
+
+                showToast(response.msg, response.tipo, 5000);
+
+                if (response.tipo == "success") {
+                    window.location.reload();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                 showToast(response.msg, response.tipo, 5000);
+            }
+            });
+
+        }
+    }
+
+    function Aprovar(Id) {
+        if (confirm("Você tem certeza que deseja aprovar este cliente?")) {
+
+            $.ajax({
+                url: '@Url.Action("Aprovar")',
+                type: 'POST',
+                data: {Id},
+                dataType: 'json',
+            success: function (response) {
+
+                showToast(response.msg, response.tipo, 5000);
+
+                if (response.tipo == "success") {
+                    window.location.reload();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                 showToast(response.msg, response.tipo, 5000);
+            }
+            });
+
+        }
+    }
+    function Reprovar(Id) {
+        if (confirm("Você tem certeza que deseja reprovar este cliente?")) {
+
+            $.ajax({
+                url: '@Url.Action("Reprovar")',
+                type: 'POST',
+                data: {Id},
+                dataType: 'json',
+            success: function (response) {
+
+                showToast(response.msg, response.tipo, 5000);
+
+                if (response.tipo == "success") {
+                    window.setTimeout
+                        (function () {
+                            window.location.reload();
+                        }, 1500);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+                 showToast(response.msg, response.tipo, 5000);
+            }
+            });
+
+
+        }
+    }
+</script>
