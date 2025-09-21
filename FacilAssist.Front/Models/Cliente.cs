@@ -15,6 +15,7 @@ namespace FacilAssist.Front.Models
         public DateTime DataNascimento { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Sexo { get; set; }        
-        public string DescricaoSexo { get; set; }        
+        public string DescricaoSexo { get; set; }     
+        
     }
 }

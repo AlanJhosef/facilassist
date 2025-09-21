@@ -16,6 +16,7 @@ namespace FacilAssist.Front.Models
         }        
         public List<string> Nome { get; set; }
         public List<string> Cpf { get; set; }
+
         public List<string> DataNascimento { get; set; }        
         public List<string> Sexo { get; set; }
         public string message { get; set; }

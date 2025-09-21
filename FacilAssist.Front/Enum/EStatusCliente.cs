@@ -5,6 +5,7 @@ using System.Web;
 
 namespace FacilAssist.Front.Enum
 {
+
     public enum EStatusCliente
     {
         EmAnalise = 1,

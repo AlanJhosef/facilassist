@@ -26,6 +26,7 @@ namespace FacilAssist.Front.Helper
                 return string.Empty;
             }
             return Regex.Replace(texto, @"[^0-9]", "");
+
         }
     }
 }

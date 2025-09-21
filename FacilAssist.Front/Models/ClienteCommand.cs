@@ -26,6 +26,7 @@ namespace FacilAssist.Front.Models
             DataCriacao = DateTime.Now;
             DataAlteracao = DateTime.Now;
             CPF = FuncoesString.RemoverFormatacao(CPF);
+
         }
         public void Alterar()
         {

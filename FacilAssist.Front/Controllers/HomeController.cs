@@ -121,5 +121,6 @@ namespace FacilAssist.Front.Controllers
                 return Json(retorno, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }
