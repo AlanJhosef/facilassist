@@ -68,7 +68,7 @@
 
 
     $(document).ready(function () {
-        // Aplica a máscara no campo CPF
+     
         $('#cpf').mask('000.000.000-00');
 
         $('#cadastroForm').on('submit', function (e) {
@@ -119,7 +119,7 @@
                 sexo.removeClass('is-invalid');
             }
 
-              // Se todas as validações passarem, prossegue com o AJAX
+          
             const formData = $(this).serialize();
 
 
